@@ -20,17 +20,27 @@
     }
 
     function printFrame() {
+        const spotifyCode = document.getElementById('spotify-code')!
         const pdfBody = document.getElementById('pdf-body')!
+        spotifyCode.style.width = '960px'
+        spotifyCode.style.marginTop = '120px'
+        pdfBody.style.width = '3508px'
+        pdfBody.style.height = '4961px'
         html2canvas(pdfBody, {
             logging: true,
             allowTaint: false,
             useCORS: true,
-            scale: 3
+            scale: 1
         }).then(canvas => {
             var tela_impressao = window.open('about:blank')!
                 tela_impressao.document.body.appendChild(canvas)
+                tela_impressao.document.body.style.backgroundColor = '#a6c52e'
                 tela_impressao.document.body.children[0].style.width = '100%'
                 tela_impressao.document.body.children[0].style.removeProperty('height')
+                spotifyCode.style.width = '120px'
+                spotifyCode.style.marginTop = '0'
+                pdfBody.style.width = '438.50px'
+                pdfBody.style.height = '620.125px'
                 tela_impressao.window.print()
                 tela_impressao.window.close()
                 const nextFinish = document.getElementById('next-finish')!
@@ -61,7 +71,13 @@
 
 <div class="carousel-item w-screen h-screen flex flex-col justify-center items-center">
     <form class="bg-neutral-900 rounded-[10px] pt-[1vw] pb-[1.5vw] px-[3vw] flex flex-col items-center space-y-6" action="">
-        <div class="bg-white text-black font-sans flex flex-col py-[1vw] px-[2vw]" id="pdf-body">
+        <div class="bg-white text-black font-sans flex flex-col py-[1vw] w-[438.50px] h-[620.125px]" style="position: relative;" id="pdf-body">
+            <img class="self-center border border-black z-10 w-[120px]" id="spotify-code" style="position: absolute" src={`https://scannables.scdn.co/uri/plain/png/000000/white/1000/${track.uri}`} alt="">
+            <div class="h-18"></div>
+            <img src={image} alt="" class="h-[100%] object-cover">
+            <div class="w-[100%] h-[100%]" style="position: absolute; background: url(overlay.png) 0 0 no-repeat; background-size: cover; top:0; left:0;"></div>
+        </div>
+        <!-- <div class="bg-white text-black font-sans flex flex-col py-[1vw] px-[2vw]" id="pdf-body">
             <img src={image} alt="" class="w-[28vw]">
             <div class="flex items-center w-[28vw]">
                 <div class="flex-1 w-[23vw] mt-4">
@@ -87,7 +103,7 @@
             </div>
             <div class="h-6"></div>
             <img class="self-center w-[12.833vw] border border-black" src={`https://scannables.scdn.co/uri/plain/png/ffffff/black/1000/${track.uri}`} alt="">
-        </div>
+        </div> -->
         <button on:click={printFrame} class="font-medium text-4xl text-white font-['Gotham'] bg-green-500 rounded-[10px] py-[1em] px-[2em]">Imprimir</button>
         <button style="display: none !important" id="next-finish" on:click></button>
     </form>
